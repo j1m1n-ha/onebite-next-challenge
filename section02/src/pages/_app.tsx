@@ -5,7 +5,7 @@ import type { AppProps } from "next/app";
 import { ReactNode } from "react";
 
 type NextPageWithLayout = NextPage & {
-  getLayout: (page: ReactNode) => ReactNode;
+  getLayout?: (page: ReactNode) => ReactNode;
 };
 
 export default function App({
@@ -14,7 +14,12 @@ export default function App({
 }: AppProps & {
   Component: NextPageWithLayout;
 }) {
-  const getLayout = Component.getLayout ?? ((page: ReactNode) => page);
+  const getLayout =
+    Component.getLayout ?? ((page: ReactNode) => page);
 
-  return <GlobalLayout>{getLayout(<Component {...pageProps} />)}</GlobalLayout>;
+  return (
+    <GlobalLayout>
+      {getLayout(<Component {...pageProps} />)}
+    </GlobalLayout>
+  );
 }
